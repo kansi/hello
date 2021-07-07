@@ -4,7 +4,7 @@ defmodule Hello.MixProject do
   def project do
     [
       app: :hello,
-      version: "0.1.0",
+      version: version(),
       elixir: "~> 1.11.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
@@ -19,6 +19,16 @@ defmodule Hello.MixProject do
         ]
       ]
     ]
+  end
+
+  def version() do
+    {hash, _} = System.cmd("git", ~w|rev-parse --short HEAD|)
+    hash = String.trim(hash)
+
+    {date, _} = System.cmd("git", ["log", "-1", "--pretty=format:%cd", "--date=format:%Y%m%d"])
+    date = String.trim(date)
+
+    "0.1.0+#{date}-#{hash}"
   end
 
   # Configuration for the OTP application.
