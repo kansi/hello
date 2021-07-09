@@ -27,13 +27,19 @@ jobs:
         path: deps
         key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-mix-
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
     - name: Install dependencies
       run: |
         mix local.rebar --force
         mix local.hex --force
         mix deps.get
     - name: Build digest
-      run: mix phx.digest
+      run: |
+        npm install --prefix assets
+        npm run deploy --prefix ./assets
+        mix phx.digest
     - name: Build release
       run: mix release --overwrite
     - name: Archive production artifacts
