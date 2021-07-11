@@ -15,7 +15,8 @@ defmodule Hello.MixProject do
         hello: [
           include_executables_for: [:unix],
           steps: [:assemble, :tar],
-          applications: [runtime_tools: :permanent]
+          applications: [runtime_tools: :permanent],
+          cookie: "simple_cookie_4526"
         ]
       ]
     ]
